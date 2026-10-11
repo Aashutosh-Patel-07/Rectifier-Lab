@@ -27,8 +27,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}.seg{display:flex;gap:6p
 canvas{width:100%;display:block}.pl{height:150px;cursor:crosshair;margin-bottom:6px}
 svg{width:100%;height:auto}svg text{fill:var(--fg);font-family:inherit}
 table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:3px 2px;text-align:right;border-bottom:1px solid var(--grid)}td:first-child,th:first-child{text-align:left}th{color:var(--muted);font-weight:500;font-size:11px}
-small{color:var(--muted)}[data-act]{cursor:pointer}button.on2{background:#38bdf8;color:#04121c;border-color:#38bdf8}.wrow>.seg{flex:0 0 auto}.wrow .seg button{padding:5px 12px;font-size:13px}#cond{display:block;margin-top:8px;color:var(--fg);font-size:15px;font-weight:600}
-</style></head><body>
+small{color:var(--muted)}[data-act]{cursor:pointer}.fs{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px}.fs .ft{font-weight:700;font-size:14px;margin-bottom:4px}.fs .fd{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px}.fb{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;border:1px solid var(--border);border-radius:8px;padding:10px 14px;background:var(--panel)}.fl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}.fm{font-family:ui-monospace,Consolas,monospace;font-size:14px;color:#38bdf8;font-weight:600}.fv{font-size:22px;font-weight:700;color:#10b981}.fv.na{color:var(--muted);font-size:15px}.mt{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:6px}.t{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px}.t .l{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:6px}.t .tag{font-size:10px;padding:1px 6px;border-radius:5px;font-weight:700;font-family:ui-monospace,monospace}.t .v{font-size:24px;font-weight:700;margin-top:4px}.t .v small{font-size:13px;font-weight:600;margin-left:3px;color:inherit}.t .s{font-size:11px;color:var(--muted);margin-top:3px}.sec{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:10px 0 6px}button.on2{background:#38bdf8;color:#04121c;border-color:#38bdf8}.wrow>.seg{flex:0 0 auto}.wrow .seg button{padding:5px 12px;font-size:13px}#cond{display:block;margin-top:8px;color:var(--fg);font-size:15px;font-weight:600}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}#cond{margin-top:0;flex:1 1 260px}.pbtn{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:14px;cursor:pointer;color:#06130d;background:#10b981;transition:transform .1s,box-shadow .2s}.pbtn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(16,185,129,.4)}.pbtn:active{transform:translateY(0)}.pbtn.pause{background:var(--accent);color:#1a1000}.pbtn.pause:hover{box-shadow:0 4px 14px rgba(240,140,0,.4)}.pbtn svg{width:16px;height:16px;fill:currentColor}</style></head><body>
 <header><div style="margin-right:auto;display:flex;align-items:center;gap:8px"><span style="font-size:22px">⚡</span><div><h1 style="margin:0">Rectifier Lab</h1><div style="font-size:16px;font-weight:600;color:var(--fg);margin-top:2px">by- Aashutosh Patel (24EE10024)</div></div></div>
 <select id="pre"></select><button id="play">Pause</button>
 <select id="spd"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
@@ -44,12 +44,12 @@ small{color:var(--muted)}[data-act]{cursor:pointer}button.on2{background:#38bdf8
  <div class="card" id="k-par"><h2>Parameters</h2><div id="sl"></div></div>
 </section>
 <section>
- <div class="card" id="k-sch"><h2>Schematic</h2><div id="sch"></div><small id="cond"></small></div>
+ <div class="card" id="k-sch"><h2>Schematic</h2><div id="sch"></div><div class="crow"><small id="cond"></small><button id="play2" class="pbtn pause"></button></div></div>
  <div class="card" id="k-wav"><h2>Waveforms <small>(drag = cursor, wheel = zoom, double-click = reset)</small></h2>
   <div class="wrow" style="display:flex;flex-wrap:wrap;gap:0 12px"><div class="seg"><button id="wsup">Superimposed (2 plots)</button><button id="wsep">Separate (4 plots)</button></div><div class="seg" id="vseg" style="display:none"><button id="vph">Phase voltage</button><button id="vll">Line-to-line voltage</button></div></div><canvas class="pl" id="c0"></canvas><canvas class="pl" id="c1"></canvas><canvas class="pl" id="c2"></canvas><canvas class="pl" id="c3"></canvas><canvas class="pl" id="cgate" style="height:34px;display:none"></canvas><canvas class="pl" id="cstrip" style="height:56px"></canvas></div>
 </section>
 <section>
- <div class="card" id="k-met"><h2>Metrics</h2><div id="met"></div><small>Theory = ideal (R-load / continuous-current) formula where valid.</small></div>
+ <div class="card" id="k-met"><h2>Metrics</h2><div id="met"></div><small>All values are calculated from the simulated steady-state waveforms for the cycles shown, assuming ideal devices (no losses, no source inductance). The textbook equation is shown only where its assumptions hold for the selected circuit and load; otherwise the card explains why it does not apply.</small></div>
  <div class="card" id="k-fft"><h2>Harmonic spectrum — AC source current</h2><div class="seg" style="max-width:300px"><button id="fz0">Full scale</button><button id="fz1">Zoom harmonics</button></div><canvas id="fft" style="height:320px"></canvas></div>
 </section>
 </main>
@@ -70,7 +70,7 @@ function paths(top,ph){
 function sim(){
  const{top,ph,load}=S,dt=1/(S.f*N),br=top=='br',n=ph==3?3:(top=='hw'?1:2);
  const Le=(load=='RL'||load=='RLE')?S.L*1e-3:0,Ee=load=='RLE'?S.E:0,R=S.R,Id=S.Idc;
- const al=S.alpha*Math.PI/180,Vp=S.V*Math.SQRT2/(ph==3?Math.sqrt(3):1),W=15;M=S.ncyc*N;
+ const al=S.alpha*Math.PI/180,Vp=S.V*Math.SQRT2/(ph==3?Math.sqrt(3):1),W=Math.min(800,Math.max(15,Math.ceil(7*(Le>0?Le/R:0)*S.f)+6));M=S.ncyc*N;
  const o={M,vs:[],is:[],vo:new Float32Array(M),io:new Float32Array(M),ju:new Int8Array(M),jl:new Int8Array(M),fw:new Uint8Array(M)};
  for(let j=0;j<ph;j++){o.vs.push(new Float32Array(M));o.is.push(new Float32Array(M))}
  const vp=new Array(n).fill(0),phU=j=>ph==3?Math.PI/6+j*TAU/3:(n==1?0:j*Math.PI);
@@ -102,24 +102,60 @@ function sim(){
 }
 const mean=a=>{let s=0;for(let i=0;i<M;i++)s+=a[i];return s/M},rms=a=>{let s=0;for(let i=0;i<M;i++)s+=a[i]*a[i];return Math.sqrt(s/M)};
 function harm(x,h){let a=0,b=0;for(let m=0;m<M;m++){const t=TAU*h*m/M;a+=x[m]*Math.cos(t);b+=x[m]*Math.sin(t)}return[2*a/M,2*b/M]}
-function theory(){
- if(S.fw&&S.load!='ID')return null;
- if(anySCR()&&!allSCR())return null;
- const{top,ph,load}=S,a=allSCR()?S.alpha*Math.PI/180:0,c=Math.cos(a),Vp=S.V*Math.SQRT2/(ph==3?Math.sqrt(3):1);
- if(ph==1){const Vm=Vp;if(top=='hw')return load=='R'?Vm*(1+c)/(2*Math.PI):null;return load=='R'?Vm*(1+c)/Math.PI:2*Vm*c/Math.PI}
- if(top=='hw'){if(load=='R'&&a>Math.PI/6)return null;return 3*Math.sqrt(3)*Vp*c/(2*Math.PI)}
- if(load=='R'&&a>Math.PI/3)return null;return 3*Math.SQRT2*S.V*c/Math.PI;
+function formulaInfo(m){
+ const{top,ph,load}=S,rel=ids(),nS=rel.filter(k=>S.scr[k]).length,all=nS==rel.length,none=nS==0,PI=Math.PI;
+ const up=rel.filter(k=>k[0]=='U'),lo=rel.filter(k=>k[0]=='L');
+ const semi=top=='br'&&!all&&!none&&((up.every(k=>S.scr[k])&&lo.every(k=>!S.scr[k]))||(lo.every(k=>S.scr[k])&&up.every(k=>!S.scr[k])));
+ const kind=none?'diode':all?'full':semi?'semi':'mixed',a=kind=='diode'?0:S.alpha*PI/180,ca=Math.cos(a);
+ const Vm=ph==3?S.V*Math.SQRT2/Math.sqrt(3):S.V*Math.SQRT2,VmL=S.V*Math.SQRT2;
+ const cont=m.mode=='Continuous'||m.mode=='Constant current',res=load=='R',fwc=S.fw&&load!='ID';
+ const phN=ph==3?'3-Phase':'1-Phase',tn={hw:'Half-Wave',fw:'Full-Wave (Centre-Tapped)',br:'Full-Bridge'}[top];
+ const title=(kind=='semi'?phN+' Semi-Converter (Half-Controlled)':kind=='mixed'?phN+' '+tn+' Rectifier (mixed diode / thyristor)':phN+(kind=='full'?(top=='hw'?' Thyristor ':' Fully Controlled '):' Diode ')+tn+' Rectifier')+' — Analytical DC Voltage Equation';
+ const lt={R:'Resistive load',RL:`R-L load (R = ${S.R} Ω, L = ${S.L} mH)`,RLE:`R-L-E load (R = ${S.R} Ω, L = ${S.L} mH, E = ${S.E} V)`,ID:`Constant-current load (Idc = ${S.Idc} A)`}[load]+(fwc?' with freewheeling diode D_FW':'');
+ let f=null,val=null,why='';const dc=kind=='diode',cf=(x,y)=>dc?y:x,OOR='the firing angle is outside the range where this equation holds',DCM='the load current is discontinuous, so the output voltage depends on the extinction angle';
+ if(kind=='mixed')why='the diodes and thyristors are mixed in a way that has no standard closed-form result';
+ else if(ph==1&&top=='hw'){
+  if(res||(fwc&&cont)){f=cf('V_dc = V_m (1 + cos α) / (2π)','V_dc = V_m / π');val=Vm*(1+ca)/(2*PI)}
+  else why=(load=='ID')?'a single device with a constant-current load conducts continuously, so the result depends on the load, not on a standard formula':DCM}
+ else if(ph==1){
+  if(res||(fwc&&cont)||(kind=='semi'&&cont)){f=cf('V_dc = V_m (1 + cos α) / π','V_dc = 2 V_m / π');val=Vm*(1+ca)/PI}
+  else if(cont){f=cf('V_dc = (2 V_m / π) cos α','V_dc = 2 V_m / π');val=2*Vm*ca/PI}
+  else why=DCM}
+ else if(top=='hw'){
+  if(res||(fwc&&cont)){if(a<=PI/6+1e-9){f=cf('V_dc = 3√3 V_m cos α / (2π)','V_dc = 3√3 V_m / (2π)');val=3*Math.sqrt(3)*Vm*ca/(2*PI)}
+   else if(a<=5*PI/6){f='V_dc = 3 V_m [1 + cos(α + 30°)] / (2π)';val=3*Vm*(1+Math.cos(a+PI/6))/(2*PI)}else why=OOR}
+  else if(cont){f=cf('V_dc = 3√3 V_m cos α / (2π)','V_dc = 3√3 V_m / (2π)');val=3*Math.sqrt(3)*Vm*ca/(2*PI)}
+  else why=DCM}
+ else{
+  if(kind=='semi'){if(cont||(res&&a<=PI/3+1e-9)){f='V_dc = 3 V_mL (1 + cos α) / (2π)';val=3*VmL*(1+ca)/(2*PI)}else why=res?OOR:DCM}
+  else if(res||(fwc&&cont)){if(a<=PI/3+1e-9){f=cf('V_dc = 3 V_mL cos α / π','V_dc = 3 V_mL / π');val=3*VmL*ca/PI}
+   else if(a<=2*PI/3){f='V_dc = 3 V_mL [1 + cos(α + 60°)] / π';val=3*VmL*(1+Math.cos(a+PI/3))/PI}else why=OOR}
+  else if(cont){f=cf('V_dc = 3 V_mL cos α / π','V_dc = 3 V_mL / π');val=3*VmL*ca/PI}
+  else why=DCM}
+ const vt=(ph==3&&top=='br')?`V_mL = ${VmL.toFixed(1)} V (peak line-to-line)`:`V_m = ${Vm.toFixed(1)} V (peak ${ph==3?'phase':'supply'} voltage)`;
+ const desc=lt+'. '+(val!=null?`Valid for ideal devices, a balanced sinusoidal supply and negligible source inductance${cont&&!res?', with continuous load current':''}. ${vt}${a?`, α = ${S.alpha}°`:''}.`:`Not applicable under the current conditions: ${why}.`);
+ const diff=val!=null?(Math.abs(val)>1?100*(m.Vdc-val)/Math.abs(val):m.Vdc-val):null;
+ return{title,desc,f,val,diff,thI:val==null?null:(load=='ID'?S.Idc:(val-(load=='RLE'?S.E:0))/S.R)};
 }
 function metrics(){
- const Vdc=mean(r.vo),Idc=mean(r.io),Vor=rms(r.vo),Ior=rms(r.io),FF=Vor/Vdc,RF=Math.sqrt(Math.max(FF*FF-1,0));
+ const Vdc=mean(r.vo),Idc=mean(r.io),Vor=rms(r.vo),Ior=rms(r.io),Vabs=Math.abs(Vdc),ok=Vabs>1e-3*Math.max(Vor,1e-9);
+ const FF=ok?Vor/Vabs:NaN,RF=ok?Math.sqrt(Math.max(Vor*Vor-Vdc*Vdc,0))/Vabs:NaN;
  let P=0,VA=0;for(let j=0;j<S.ph;j++){let s=0;for(let m=0;m<M;m++)s+=r.vs[j][m]*r.is[j][m];P+=s/M;VA+=rms(r.vs[j])*rms(r.is[j])}
- const PF=P/VA,Is=rms(r.is[0]),h=S.ncyc,[va,vb]=harm(r.vs[0],h),[ia,ib]=harm(r.is[0],h);
- const I1=Math.hypot(ia,ib)/Math.SQRT2,DPF=Math.cos(Math.atan2(vb,va)-Math.atan2(ib,ia)),THD=Math.sqrt(Math.max(Is*Is-I1*I1,0))/I1;
- const Vp=S.V*Math.SQRT2/(S.ph==3?Math.sqrt(3):1),Pdc=Vdc*Idc;
- const VAs=S.top=='fw'?2*rms(r.vs[0])*Ior/Math.SQRT2:VA;
- const piv=S.ph==3?Math.sqrt(3)*Vp:(S.top=='fw'?2*Vp:Vp),th=theory();
- const spec=[];for(let k=1;k<=25;k++){const[a,b]=harm(r.is[0],k*h);spec.push(Math.hypot(a,b)/Math.SQRT2/Math.max(I1,1e-9)*100)}
- return{I1,Vdc,Idc,Vor,Ior,FF,RF,Is,PF,DPF,THD,TUF:Pdc/VAs,piv,th,thI:th==null?null:(S.load=='ID'?S.Idc:(th-(S.load=='RLE'?S.E:0))/S.R),spec};
+ const Is=rms(r.is[0]),Vs=rms(r.vs[0]),PF=VA>1e-9?P/VA:NaN,h=S.ncyc,[va,vb]=harm(r.vs[0],h),[ia,ib]=harm(r.is[0],h);
+ const I1=Math.hypot(ia,ib)/Math.SQRT2,Idcs=mean(r.is[0]),good=I1>1e-6;
+ const DPF=good?Math.cos(Math.atan2(vb,va)-Math.atan2(ib,ia)):NaN,THD=good?Math.sqrt(Math.max(Is*Is-Idcs*Idcs-I1*I1,0))/I1:NaN;
+ const Vp=S.V*Math.SQRT2/(S.ph==3?Math.sqrt(3):1),Pdc=Vdc*Idc,Po=(()=>{let s=0;for(let m=0;m<M;m++)s+=r.vo[m]*r.io[m];return s/M})();
+ const VAs=S.top=='fw'?Math.SQRT2*Vs*Is:VA,TUF=VAs>1e-9?Pdc/VAs:NaN;
+ let piv,pivNote;
+ if(S.top=='br'){piv=S.ph==3?Math.SQRT2*S.V:Vp;pivNote='peak line-to-line voltage'}
+ else{const dv=S.ph==3?[r.vs[0],r.vs[1],r.vs[2]]:(S.top=='fw'?[r.vs[0],r.vs[0].map(v=>-v)]:[r.vs[0]]);piv=0;
+  for(const d of dv)for(let m=0;m<M;m++){const x=r.vo[m]-d[m];if(x>piv)piv=x}pivNote='highest reverse voltage (PIV)'}
+ let imax=-1e18,imin=1e18;for(let m=0;m<M;m++){const x=r.io[m];if(x>imax)imax=x;if(x<imin)imin=x}
+ let fwN=0;for(let m=0;m<M;m++)fwN+=r.fw[m];
+ const mode=S.load=='R'?'Resistive':S.load=='ID'?'Constant current':(imin>1e-3*Math.max(imax,1e-9)?'Continuous':'Discontinuous'),dcm=mode=='Discontinuous';
+ const spec=[];for(let k=1;k<=25;k++){const[a,b]=harm(r.is[0],k*h);spec.push(good?Math.hypot(a,b)/Math.SQRT2/I1*100:0)}
+ const fi=formulaInfo({mode,Vdc});
+ return{I1,Vdc,Idc,Vor,Ior,FF,RF,Is,PF,DPF,THD,Idcs,P,VA,Pdc,Po,TUF,piv,pivNote,mode,dcm,fwUsed:fwN>0,fi,spec};
 }
 // ---------- plots ----------
 const PAL={vs:['#38bdf8','#0369a1','#bae6fd'],is:['#a78bfa','#6d28d9','#ddd6fe'],vo:'#10b981',io:'#f59e0b'},cvs=[0,1,2,3].map(i=>$('c'+i));
@@ -298,7 +334,7 @@ function build(){
  $('vph').onclick=()=>{S.vmode='ph';sync();draw()};$('vll').onclick=()=>{S.vmode='ll';sync();draw()};
  $('fz0').onclick=()=>{S.fftz=false;sync();drawFFT(window._sp||[])};$('fz1').onclick=()=>{S.fftz=true;sync();drawFFT(window._sp||[])};
  $('wsup').onclick=()=>{S.wmode='sup';sync();draw()};$('wsep').onclick=()=>{S.wmode='sep';sync();draw()};
- $('play').onclick=()=>{S.play=!S.play;sync()};$('spd').onchange=e=>S.speed=+e.target.value;
+ $('play2').onclick=()=>{S.play=!S.play;sync()};$('play').onclick=()=>{S.play=!S.play;sync()};$('spd').onchange=e=>S.speed=+e.target.value;
  $('theme').onclick=()=>{const d=document.documentElement,dark=getComputedStyle(d).getPropertyValue('--bg').trim()=='#10141b';d.dataset.theme=dark?'light':'dark';draw();drawFFT(window._sp||[])};
  [...cvs,$('cgate'),$('cstrip')].forEach(cv=>{const mv=e=>{const rc=cv.getBoundingClientRect(),f=Math.min(1,Math.max(0,(e.clientX-rc.left-46)/(rc.width-54)));idx=Math.round((view[0]+f*(view[1]-view[0]))*(M-1));cur=idx;draw()};
   cv.onpointerdown=e=>{S.play=false;sync();cv.setPointerCapture(e.pointerId);mv(e);cv.onpointermove=mv};cv.onpointerup=()=>cv.onpointermove=null;
@@ -314,14 +350,31 @@ function sync(){
  $('lab_V').textContent=S.ph==3?'V rms (line-line)':(S.top=='fw'?'V rms (each half-winding)':'V rms');
  $('fz0').className=S.fftz?'':'on';$('fz1').className=S.fftz?'on':'';$('vseg').style.display=S.ph==3?'':'none';$('vph').className=S.vmode=='ph'?'on2':'';$('vll').className=S.vmode=='ll'?'on2':'';$('wsup').className=S.wmode=='sup'?'on':'';$('wsep').className=S.wmode=='sep'?'on':'';$('top').value=S.top;$('load').value=S.load;$('ctrl').checked=allSCR();
  $('p1').className=S.ph==1?'on':'';$('p3').className=S.ph==3?'on':'';$('p3').disabled=S.top=='fw';
- $('play').textContent=S.play?'Pause':'Play';
+ $('play').textContent=S.play?'Pause':'Play';$('play2').className='pbtn'+(S.play?' pause':'');$('play2').innerHTML=(S.play?'<svg viewBox="0 0 16 16"><rect x="3" y="2.5" width="3.6" height="11" rx="1"/><rect x="9.4" y="2.5" width="3.6" height="11" rx="1"/></svg>Pause':'<svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>Play');
 }
 let pend=false;
 function update(){sync();if(pend)return;pend=true;requestAnimationFrame(()=>{pend=false;r=sim();idx=Math.min(idx,M-1);const m=metrics();window._sp=m.spec;window._m=m;showMet(m);draw();drawFFT(m.spec)})}
 function showMet(m){
- const f=(x,d=3)=>x==null||!isFinite(x)?'—':(Math.abs(x)>=100?x.toFixed(1):x.toFixed(d));
- const rows=[['Vdc (V)',m.Vdc,m.th],['Idc (A)',m.Idc,m.thI],['Vo,rms (V)',m.Vor],['Io,rms (A)',m.Ior],['Form factor',m.FF],['Ripple factor',m.RF],['Is,rms (A)',m.Is],['Input PF',m.PF],['Displacement factor',m.DPF],['Current THD',m.THD],['PIV (V)',null,m.piv],['TUF',m.TUF]];
- $('met').innerHTML='<table><tr><th></th><th>Sim</th><th>Theory</th></tr>'+rows.map(([n,a,b])=>`<tr><td>${n}</td><td>${a==null?'—':f(a)}</td><td>${b==null?'—':f(b)}</td></tr>`).join('')+'</table>';
+ const f=(x,d=2)=>{if(x==null||!isFinite(x))return'—';if(Math.abs(x)<0.5*Math.pow(10,-d))x=0;return Math.abs(x)>=1000?x.toFixed(Math.max(d-1,0)):x.toFixed(d)};
+ const tile=(l,tag,c,v,u,s)=>`<div class="t"><div class="l"><span>${l}</span><span class="tag" style="color:${c};background:${c}22">${tag}</span></div><div class="v" style="color:${c}">${v}<small>${u}</small></div><div class="s">${s}</div></div>`;
+ const G='#10b981',O='#f59e0b',V='#a78bfa',B='#38bdf8',R='#f87171',Y='#facc15';
+ const ms=m.dcm?`<span style="color:${Y}">⚠ DCM Discontinuous</span>`:(S.load=='R'?'Resistive load':(S.load=='ID'?'Constant-current load':`<span style="color:${G}">✓ CCM Continuous</span>`));
+ let s=`<div class="mt">`;
+ s+=tile('Avg DC Voltage','V_dc',G,f(m.Vdc,1),'V',`V_rms = ${f(m.Vor,1)} V`);
+ s+=tile('Avg DC Current','I_dc',O,f(m.Idc,2),'A',`I_rms = ${f(m.Ior,2)} A`);
+ s+=tile('Output Power','P_load',Y,f(m.Po,0),'W',`S_in = ${f(m.VA,0)} VA`);
+ s+=tile('Power Factor','PF',V,f(m.PF,3),'',`cos φ₁ = ${f(m.DPF,3)}`);
+ s+=tile('Ripple Factor','RF',R,f(m.RF,3),'',`Form factor FF = ${f(m.FF,3)}`);
+ s+=tile('Source THD_i','THD',B,f(m.THD*100,1),'%',ms+(m.fwUsed?' · D_FW active':''));
+ s+=tile('Device Peak Voltage','PIV',R,f(m.piv,1),'V',m.pivNote);
+ s+=tile('Utilisation Factor','TUF',B,f(m.TUF,3),'','P_dc ÷ transformer VA');
+ s+=`</div>`;
+ const q=m.fi,ok=q.val!=null,good=ok&&Math.abs(q.diff)<=1;
+ s+=`<div class="fs"><div class="ft">${q.title}</div><div class="fd">${q.desc}</div><div class="fb">`;
+ if(ok)s+=`<div><div class="fl">Textbook formula</div><div class="fm">${q.f}</div></div><div><div class="fl">Ideal V_dc</div><div class="fv">${f(q.val,1)} V</div></div><div><div class="fl">Simulated V_dc</div><div class="fv" style="color:${good?G:Y};font-size:18px">${f(m.Vdc,1)} V</div><div class="fl" style="text-transform:none;color:${good?G:Y}">${good?'✓ agrees with the formula':'differs by '+f(Math.abs(q.diff),1)+(Math.abs(q.val)>1?' %':' V')}</div></div>`;
+ else s+=`<div><div class="fl">Textbook formula</div><div class="fv na">Not applicable here</div></div><div><div class="fl">Simulated V_dc</div><div class="fv" style="font-size:18px">${f(m.Vdc,1)} V</div></div>`;
+ s+=`</div></div>`;
+ $('met').innerHTML=s;
 }
 function tick(){requestAnimationFrame(tick);if(S.play&&r){cur=(cur+S.speed*N/240)%M;idx=Math.floor(cur);draw()}const fe=$('flowp');if(fe&&S.play)fe.setAttribute('stroke-dashoffset',-((performance.now()*S.speed*0.05)%14))}
 build();update();tick();
